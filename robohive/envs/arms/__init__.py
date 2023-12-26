@@ -69,7 +69,22 @@ def register_visual_envs(encoder_type):
 for enc in ["r3m18", "r3m34", "r3m50", "rrl18", "rrl34", "rrl50"]:
     register_visual_envs(enc)
 
+# FRANKA REACH MULTI ================================================================
+# from robohive.envs.arms.reach_base_multi_v0 import ReachBaseMultiV0
 
+# Reach to fixed target
+register(
+    id='FrankaReachFixedMulti-v0',
+    entry_point='robohive.envs.arms.reach_base_multi_v0:ReachBaseMultiV0',
+    max_episode_steps=50, #50steps*40Skip*2ms = 4s
+    kwargs={
+        'model_path': curr_dir+'/franka/assets/franka_reach_multi_v0.xml',
+        'config_path': curr_dir+'/franka/assets/franka_reach_multi_v0.config',
+        'robot_site_name': "end_effector",
+        'target_site_name': "target",
+        'target_xyz_range': {'high':[0.2, 0.3, 1.2], 'low':[0.2, 0.3, 1.2]}
+    }
+)
 
 # FRANKA PUSH =======================================================================
 from robohive.envs.arms.push_base_v0 import PushBaseV0

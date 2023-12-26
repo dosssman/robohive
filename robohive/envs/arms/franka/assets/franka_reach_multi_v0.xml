@@ -1,0 +1,307 @@
+<mujoco model="Franka Reach">
+<!-- =================================================
+    Copyright 2020 Vikash Kumar
+    Model   :: Franka Reach (MuJoCoV2.0)
+    Author  :: Vikash Kumar (vikashplus@gmail.com)
+    source  :: https://github.com/vikashplus/robohive
+    License :: Under Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with the License. You may obtain a copy of the License at http://www.apache.org/licenses/LICENSE-2.0 Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the specific language governing permissions and limitations under the License.
+====================================================== -->
+    <compiler angle="radian" meshdir="../../../../simhive/franka_sim" texturedir="../../../../simhive/franka_sim"/>
+
+    <size njmax='1000' nconmax='1000'/>
+
+    <include file="../../../../simhive/scene_sim/topfloor_scene.xml"/>
+    <include file="../../../../simhive/franka_sim/assets/assets.xml"/>
+    <include file="../../../../simhive/furniture_sim/simpleTable/simpleTable_asset.xml"/>
+    <include file="../../../../simhive/franka_sim/assets/actuator0.xml"/>
+    <include file="../../../../simhive/franka_sim/assets/gripper_assets.xml"/>
+    <include file="../../../../simhive/franka_sim/assets/gripper_actuator0.xml"/>
+
+    <worldbody>
+
+        <camera name='left_cam' pos='-1.2 -0.5 1.8' quat='0.78 0.49 -0.22 -0.32'/>
+        <camera name='right_cam' pos='1.2 -0.5 1.8' quat='0.76 0.5 0.21 0.35'/>
+        <camera name='top_cam' pos='0 0.5 2.2' euler='0 0 0'/>
+
+        <site name='workspace' type='box' size='.6 .375 .25' pos='0 0.475 1.0' group='3' rgba='0 0 .4 .2'/>
+
+        <!-- Robots -->
+        <body pos='0 0 .775' euler='0 0 1.57'>
+            <geom type='cylinder' size='.120 .4' pos='-.04 0 -.4'/>
+            <include file="../../../../simhive/franka_sim/assets/chain0_multi_0.xml"/>
+        </body>
+        <body pos='0.85 0 .775' euler='0 0 1.57'>
+            <geom type='cylinder' size='.120 .4' pos='-.04 0 -.4'/>
+            <include file="../../../../simhive/franka_sim/assets/chain0_multi_1.xml"/>
+        </body>
+        <body pos='-0.85 0 .775' euler='0 0 1.57'>
+            <geom type='cylinder' size='.120 .4' pos='-.04 0 -.4'/>
+            <include file="../../../../simhive/franka_sim/assets/chain0_multi_2.xml"/>
+        </body>
+
+        <!-- Row of tables -->
+        <body pos='0 0.475 0'>
+            <include file="../../../../simhive/furniture_sim/simpleTable/simpleWoodTable_body_multi_0.xml"/>
+        </body>
+        <body pos='1.2 0.475 0'>
+            <include file="../../../../simhive/furniture_sim/simpleTable/simpleWoodTable_body_multi_1.xml"/>
+        </body>
+        <body pos='-1.2 0.475 0'>
+            <include file="../../../../simhive/furniture_sim/simpleTable/simpleWoodTable_body_multi_2.xml"/>
+        </body>
+
+        <!-- Objects -->
+        <body name="cube0" pos="0.235 0.5 1.">
+            <inertial pos="0 0 0" mass="0.088" diaginertia="0.0001 0.0001 0.0001" />
+            <geom type="box" size="0.0275 0.0275 0.0275" pos="0.0 0.0 0.0" euler=".6 .8 1" group="1" rgba="0 0 1 1" mass=".100"/>
+            <site name="cube0" size="0.01" pos="0 0 0"/>
+            <freejoint/>
+        </body>
+
+
+
+		<body name="cube1" pos="0.391 0.442 1.">
+		    <inertial pos="0 0 0" mass="0.088" diaginertia="0.0001 0.0001 0.0001" />
+		    <geom type="box" size="0.0275 0.0275 0.0275" pos="0.0 0.0 0.0" euler=".6 .8 1" group="1" rgba="1 1 0 1" mass=".100"/>
+		    <site name="cube1" size="0.01" pos="0 0 0"/>
+		    <freejoint/>
+		</body>
+
+
+		<body name="cube2" pos="0.847 0.380 1.">
+		    <inertial pos="0 0 0" mass="0.088" diaginertia="0.0001 0.0001 0.0001" />
+		    <geom type="box" size="0.0275 0.0275 0.0275" pos="0.0 0.0 0.0" euler=".6 .8 1" group="1" rgba="1 0.5 0 1" mass=".100"/>
+		    <site name="cube2" size="0.01" pos="0 0 0"/>
+		    <freejoint/>
+		</body>
+
+
+		<body name="cube3" pos="-0.728 0.301 1.">
+		    <inertial pos="0 0 0" mass="0.088" diaginertia="0.0001 0.0001 0.0001" />
+		    <geom type="box" size="0.0275 0.0275 0.0275" pos="0.0 0.0 0.0" euler=".6 .8 1" group="1" rgba="0 1 0 1" mass=".100"/>
+		    <site name="cube3" size="0.01" pos="0 0 0"/>
+		    <freejoint/>
+		</body>
+
+
+		<body name="cube4" pos="0.435 0.515 1.">
+		    <inertial pos="0 0 0" mass="0.088" diaginertia="0.0001 0.0001 0.0001" />
+		    <geom type="box" size="0.0275 0.0275 0.0275" pos="0.0 0.0 0.0" euler=".6 .8 1" group="1" rgba="1 0.5 0 1" mass=".100"/>
+		    <site name="cube4" size="0.01" pos="0 0 0"/>
+		    <freejoint/>
+		</body>
+
+
+		<body name="cube5" pos="0.575 0.342 1.">
+		    <inertial pos="0 0 0" mass="0.088" diaginertia="0.0001 0.0001 0.0001" />
+		    <geom type="box" size="0.0275 0.0275 0.0275" pos="0.0 0.0 0.0" euler=".6 .8 1" group="1" rgba="1 1 0 1" mass=".100"/>
+		    <site name="cube5" size="0.01" pos="0 0 0"/>
+		    <freejoint/>
+		</body>
+
+
+		<body name="cube6" pos="0.973 0.534 1.">
+		    <inertial pos="0 0 0" mass="0.088" diaginertia="0.0001 0.0001 0.0001" />
+		    <geom type="box" size="0.0275 0.0275 0.0275" pos="0.0 0.0 0.0" euler=".6 .8 1" group="1" rgba="1 0 0 1" mass=".100"/>
+		    <site name="cube6" size="0.01" pos="0 0 0"/>
+		    <freejoint/>
+		</body>
+
+
+		<body name="cube7" pos="0.319 0.657 1.">
+		    <inertial pos="0 0 0" mass="0.088" diaginertia="0.0001 0.0001 0.0001" />
+		    <geom type="box" size="0.0275 0.0275 0.0275" pos="0.0 0.0 0.0" euler=".6 .8 1" group="1" rgba="0 1 0 1" mass=".100"/>
+		    <site name="cube7" size="0.01" pos="0 0 0"/>
+		    <freejoint/>
+		</body>
+
+
+		<body name="cube8" pos="-0.734 0.655 1.">
+		    <inertial pos="0 0 0" mass="0.088" diaginertia="0.0001 0.0001 0.0001" />
+		    <geom type="box" size="0.0275 0.0275 0.0275" pos="0.0 0.0 0.0" euler=".6 .8 1" group="1" rgba="1 1 0 1" mass=".100"/>
+		    <site name="cube8" size="0.01" pos="0 0 0"/>
+		    <freejoint/>
+		</body>
+
+
+		<body name="cube9" pos="0.294 0.547 1.">
+		    <inertial pos="0 0 0" mass="0.088" diaginertia="0.0001 0.0001 0.0001" />
+		    <geom type="box" size="0.0275 0.0275 0.0275" pos="0.0 0.0 0.0" euler=".6 .8 1" group="1" rgba="1 1 0 1" mass=".100"/>
+		    <site name="cube9" size="0.01" pos="0 0 0"/>
+		    <freejoint/>
+		</body>
+
+
+		<body name="cube10" pos="0.470 0.562 1.">
+		    <inertial pos="0 0 0" mass="0.088" diaginertia="0.0001 0.0001 0.0001" />
+		    <geom type="box" size="0.0275 0.0275 0.0275" pos="0.0 0.0 0.0" euler=".6 .8 1" group="1" rgba="0 1 0 1" mass=".100"/>
+		    <site name="cube10" size="0.01" pos="0 0 0"/>
+		    <freejoint/>
+		</body>
+
+
+		<body name="cube11" pos="0.869 0.327 1.">
+		    <inertial pos="0 0 0" mass="0.088" diaginertia="0.0001 0.0001 0.0001" />
+		    <geom type="box" size="0.0275 0.0275 0.0275" pos="0.0 0.0 0.0" euler=".6 .8 1" group="1" rgba="1 1 0 1" mass=".100"/>
+		    <site name="cube11" size="0.01" pos="0 0 0"/>
+		    <freejoint/>
+		</body>
+
+
+		<body name="cube12" pos="0.954 0.301 1.">
+		    <inertial pos="0 0 0" mass="0.088" diaginertia="0.0001 0.0001 0.0001" />
+		    <geom type="box" size="0.0275 0.0275 0.0275" pos="0.0 0.0 0.0" euler=".6 .8 1" group="1" rgba="1 0.5 0 1" mass=".100"/>
+		    <site name="cube12" size="0.01" pos="0 0 0"/>
+		    <freejoint/>
+		</body>
+
+
+		<body name="cube13" pos="-0.242 0.517 1.">
+		    <inertial pos="0 0 0" mass="0.088" diaginertia="0.0001 0.0001 0.0001" />
+		    <geom type="box" size="0.0275 0.0275 0.0275" pos="0.0 0.0 0.0" euler=".6 .8 1" group="1" rgba="1 0.5 0 1" mass=".100"/>
+		    <site name="cube13" size="0.01" pos="0 0 0"/>
+		    <freejoint/>
+		</body>
+
+
+		<body name="cube14" pos="-1.190 0.322 1.">
+		    <inertial pos="0 0 0" mass="0.088" diaginertia="0.0001 0.0001 0.0001" />
+		    <geom type="box" size="0.0275 0.0275 0.0275" pos="0.0 0.0 0.0" euler=".6 .8 1" group="1" rgba="1 0.5 0 1" mass=".100"/>
+		    <site name="cube14" size="0.01" pos="0 0 0"/>
+		    <freejoint/>
+		</body>
+
+
+		<body name="cube15" pos="-0.548 0.669 1.">
+		    <inertial pos="0 0 0" mass="0.088" diaginertia="0.0001 0.0001 0.0001" />
+		    <geom type="box" size="0.0275 0.0275 0.0275" pos="0.0 0.0 0.0" euler=".6 .8 1" group="1" rgba="1 0 0 1" mass=".100"/>
+		    <site name="cube15" size="0.01" pos="0 0 0"/>
+		    <freejoint/>
+		</body>
+
+
+		<body name="cube16" pos="0.926 0.672 1.">
+		    <inertial pos="0 0 0" mass="0.088" diaginertia="0.0001 0.0001 0.0001" />
+		    <geom type="box" size="0.0275 0.0275 0.0275" pos="0.0 0.0 0.0" euler=".6 .8 1" group="1" rgba="1 0.5 0 1" mass=".100"/>
+		    <site name="cube16" size="0.01" pos="0 0 0"/>
+		    <freejoint/>
+		</body>
+
+
+		<body name="cube17" pos="-1.033 0.409 1.">
+		    <inertial pos="0 0 0" mass="0.088" diaginertia="0.0001 0.0001 0.0001" />
+		    <geom type="box" size="0.0275 0.0275 0.0275" pos="0.0 0.0 0.0" euler=".6 .8 1" group="1" rgba="1 0 0 1" mass=".100"/>
+		    <site name="cube17" size="0.01" pos="0 0 0"/>
+		    <freejoint/>
+		</body>
+
+
+		<body name="cube18" pos="0.191 0.325 1.">
+		    <inertial pos="0 0 0" mass="0.088" diaginertia="0.0001 0.0001 0.0001" />
+		    <geom type="box" size="0.0275 0.0275 0.0275" pos="0.0 0.0 0.0" euler=".6 .8 1" group="1" rgba="0 1 0 1" mass=".100"/>
+		    <site name="cube18" size="0.01" pos="0 0 0"/>
+		    <freejoint/>
+		</body>
+
+
+		<body name="cube19" pos="0.781 0.658 1.">
+		    <inertial pos="0 0 0" mass="0.088" diaginertia="0.0001 0.0001 0.0001" />
+		    <geom type="box" size="0.0275 0.0275 0.0275" pos="0.0 0.0 0.0" euler=".6 .8 1" group="1" rgba="0 0 1 1" mass=".100"/>
+		    <site name="cube19" size="0.01" pos="0 0 0"/>
+		    <freejoint/>
+		</body>
+
+
+		<body name="cube20" pos="0.064 0.641 1.">
+		    <inertial pos="0 0 0" mass="0.088" diaginertia="0.0001 0.0001 0.0001" />
+		    <geom type="box" size="0.0275 0.0275 0.0275" pos="0.0 0.0 0.0" euler=".6 .8 1" group="1" rgba="0 1 0 1" mass=".100"/>
+		    <site name="cube20" size="0.01" pos="0 0 0"/>
+		    <freejoint/>
+		</body>
+
+
+		<body name="cube21" pos="-0.627 0.602 1.">
+		    <inertial pos="0 0 0" mass="0.088" diaginertia="0.0001 0.0001 0.0001" />
+		    <geom type="box" size="0.0275 0.0275 0.0275" pos="0.0 0.0 0.0" euler=".6 .8 1" group="1" rgba="1 0.5 0 1" mass=".100"/>
+		    <site name="cube21" size="0.01" pos="0 0 0"/>
+		    <freejoint/>
+		</body>
+
+
+		<body name="cube22" pos="0.750 0.467 1.">
+		    <inertial pos="0 0 0" mass="0.088" diaginertia="0.0001 0.0001 0.0001" />
+		    <geom type="box" size="0.0275 0.0275 0.0275" pos="0.0 0.0 0.0" euler=".6 .8 1" group="1" rgba="1 0.5 0 1" mass=".100"/>
+		    <site name="cube22" size="0.01" pos="0 0 0"/>
+		    <freejoint/>
+		</body>
+
+
+		<body name="cube23" pos="1.132 0.306 1.">
+		    <inertial pos="0 0 0" mass="0.088" diaginertia="0.0001 0.0001 0.0001" />
+		    <geom type="box" size="0.0275 0.0275 0.0275" pos="0.0 0.0 0.0" euler=".6 .8 1" group="1" rgba="1 0 0 1" mass=".100"/>
+		    <site name="cube23" size="0.01" pos="0 0 0"/>
+		    <freejoint/>
+		</body>
+
+
+		<body name="cube24" pos="-0.726 0.644 1.">
+		    <inertial pos="0 0 0" mass="0.088" diaginertia="0.0001 0.0001 0.0001" />
+		    <geom type="box" size="0.0275 0.0275 0.0275" pos="0.0 0.0 0.0" euler=".6 .8 1" group="1" rgba="1 0 0 1" mass=".100"/>
+		    <site name="cube24" size="0.01" pos="0 0 0"/>
+		    <freejoint/>
+		</body>
+
+
+		<body name="cube25" pos="-0.811 0.438 1.">
+		    <inertial pos="0 0 0" mass="0.088" diaginertia="0.0001 0.0001 0.0001" />
+		    <geom type="box" size="0.0275 0.0275 0.0275" pos="0.0 0.0 0.0" euler=".6 .8 1" group="1" rgba="0 1 0 1" mass=".100"/>
+		    <site name="cube25" size="0.01" pos="0 0 0"/>
+		    <freejoint/>
+		</body>
+
+
+		<body name="cube26" pos="0.243 0.369 1.">
+		    <inertial pos="0 0 0" mass="0.088" diaginertia="0.0001 0.0001 0.0001" />
+		    <geom type="box" size="0.0275 0.0275 0.0275" pos="0.0 0.0 0.0" euler=".6 .8 1" group="1" rgba="0 0 1 1" mass=".100"/>
+		    <site name="cube26" size="0.01" pos="0 0 0"/>
+		    <freejoint/>
+		</body>
+
+
+		<body name="cube27" pos="-0.423 0.350 1.">
+		    <inertial pos="0 0 0" mass="0.088" diaginertia="0.0001 0.0001 0.0001" />
+		    <geom type="box" size="0.0275 0.0275 0.0275" pos="0.0 0.0 0.0" euler=".6 .8 1" group="1" rgba="1 0.5 0 1" mass=".100"/>
+		    <site name="cube27" size="0.01" pos="0 0 0"/>
+		    <freejoint/>
+		</body>
+
+
+		<body name="cube28" pos="0.155 0.290 1.">
+		    <inertial pos="0 0 0" mass="0.088" diaginertia="0.0001 0.0001 0.0001" />
+		    <geom type="box" size="0.0275 0.0275 0.0275" pos="0.0 0.0 0.0" euler=".6 .8 1" group="1" rgba="0 1 0 1" mass=".100"/>
+		    <site name="cube28" size="0.01" pos="0 0 0"/>
+		    <freejoint/>
+		</body>
+
+
+		<body name="cube29" pos="-0.659 0.592 1.">
+		    <inertial pos="0 0 0" mass="0.088" diaginertia="0.0001 0.0001 0.0001" />
+		    <geom type="box" size="0.0275 0.0275 0.0275" pos="0.0 0.0 0.0" euler=".6 .8 1" group="1" rgba="1 1 0 1" mass=".100"/>
+		    <site name="cube29" size="0.01" pos="0 0 0"/>
+		    <freejoint/>
+		</body>
+
+
+		<body name="cube30" pos="0.185 0.624 1.">
+		    <inertial pos="0 0 0" mass="0.088" diaginertia="0.0001 0.0001 0.0001" />
+		    <geom type="box" size="0.0275 0.0275 0.0275" pos="0.0 0.0 0.0" euler=".6 .8 1" group="1" rgba="0 0 1 1" mass=".100"/>
+		    <site name="cube30" size="0.01" pos="0 0 0"/>
+		    <freejoint/>
+		</body>
+
+        <!-- tasks details added here via include-->
+        <site name='target' type='sphere' size='.1' pos='0 0.475 1.0' group='1' rgba='.1 .8 .2 0'/>
+
+    </worldbody>
+
+</mujoco>
