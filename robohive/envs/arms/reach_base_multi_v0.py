@@ -15,7 +15,7 @@ from robohive.envs import env_base
 class ReachBaseMultiV0(env_base.MujocoEnv):
 
     DEFAULT_OBS_KEYS = [
-        'qp_robot', 'qv_robot', 'reach_err'
+        'qp_robot', 'qv_robot'
     ]
     DEFAULT_PROPRIO_KEYS = [
         'qp_robot', 'qv_robot'
@@ -48,8 +48,6 @@ class ReachBaseMultiV0(env_base.MujocoEnv):
 
     def _setup(self,
                robot_site_name,
-               target_site_name,
-               target_xyz_range,
                frame_skip = 40,
                reward_mode = "dense",
                obs_keys=DEFAULT_OBS_KEYS,
@@ -60,8 +58,6 @@ class ReachBaseMultiV0(env_base.MujocoEnv):
 
         # ids
         self.grasp_sid = self.sim.model.site_name2id(robot_site_name)
-        self.target_sid = self.sim.model.site_name2id(target_site_name)
-        self.target_xyz_range = target_xyz_range
 
         super()._setup(obs_keys=obs_keys,
                        proprio_keys=proprio_keys,
@@ -76,11 +72,19 @@ class ReachBaseMultiV0(env_base.MujocoEnv):
         obs_dict['time'] = np.array([self.sim.data.time])
         obs_dict['qp_robot'] = sim.data.qpos.copy()
         obs_dict['qv_robot'] = sim.data.qvel.copy()
-        obs_dict['reach_err'] = sim.data.site_xpos[self.target_sid]-sim.data.site_xpos[self.grasp_sid]
         return obs_dict
 
 
     def get_reward_dict(self, obs_dict):
+        return {
+            "dense": 0.0,
+            # Must keys
+            "sparse": 0.0,
+            "solved": 0.0,
+            "done": 0.0
+        }
+        # TODO: proper reward generation for multi-robot task ?
+        # Also add automatic detection
         reach_dist = np.linalg.norm(obs_dict['reach_err'], axis=-1)
         far_th = 1.0
 
@@ -98,7 +102,5 @@ class ReachBaseMultiV0(env_base.MujocoEnv):
         return rwd_dict
 
     def reset(self, reset_qpos=None, reset_qvel=None):
-        self.sim.model.site_pos[self.target_sid] = self.np_random.uniform(high=self.target_xyz_range['high'], low=self.target_xyz_range['low'])
-        self.sim_obsd.model.site_pos[self.target_sid] = self.sim.model.site_pos[self.target_sid]
         obs = super().reset(reset_qpos, reset_qvel)
         return obs

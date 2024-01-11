@@ -81,8 +81,6 @@ register(
         'model_path': curr_dir+'/franka/assets/franka_reach_multi_v0.xml',
         'config_path': curr_dir+'/franka/assets/franka_reach_multi_v0.config',
         'robot_site_name': "end_effector",
-        'target_site_name': "target",
-        'target_xyz_range': {'high':[0.2, 0.3, 1.2], 'low':[0.2, 0.3, 1.2]}
     }
 )
 
