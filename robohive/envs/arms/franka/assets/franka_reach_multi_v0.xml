@@ -14,8 +14,8 @@
     <include file="../../../../simhive/franka_sim/assets/assets.xml"/>
     <include file="../../../../simhive/furniture_sim/simpleTable/simpleTable_asset.xml"/>
     <include file="../../../../simhive/franka_sim/assets/actuator0.xml"/>
-		<include file="../../../../simhive/franka_sim/assets/actuator1.xml"/>
-		<include file="../../../../simhive/franka_sim/assets/actuator2.xml"/>
+		<include file="../../../../simhive/multi_sim/franka_sim/assets/actuator1.xml"/>
+		<include file="../../../../simhive/multi_sim/franka_sim/assets/actuator2.xml"/>
     <include file="../../../../simhive/franka_sim/assets/gripper_assets.xml"/>
     <include file="../../../../simhive/franka_sim/assets/gripper_actuator0.xml"/>
 
@@ -34,26 +34,26 @@
         <!-- Robots -->
         <body pos='0 0 .775' euler='0 0 1.57'>
             <geom type='cylinder' size='.120 .4' pos='-.04 0 -.4'/>
-            <include file="../../../../simhive/franka_sim/assets/chain0_multi_0.xml"/>
+            <include file="../../../../simhive/multi_sim/franka_sim/assets/chain0_multi_0.xml"/>
         </body>
         <body pos='0.85 0 .775' euler='0 0 1.57'>
             <geom type='cylinder' size='.120 .4' pos='-.04 0 -.4'/>
-            <include file="../../../../simhive/franka_sim/assets/chain0_multi_1.xml"/>
+            <include file="../../../../simhive/multi_sim/franka_sim/assets/chain0_multi_1.xml"/>
         </body>
         <body pos='-0.85 0 .775' euler='0 0 1.57'>
             <geom type='cylinder' size='.120 .4' pos='-.04 0 -.4'/>
-            <include file="../../../../simhive/franka_sim/assets/chain0_multi_2.xml"/>
+            <include file="../../../../simhive/multi_sim/franka_sim/assets/chain0_multi_2.xml"/>
         </body>
 
         <!-- Row of tables -->
         <body pos='0 0.475 0'>
-            <include file="../../../../simhive/furniture_sim/simpleTable/simpleWoodTable_body_multi_0.xml"/>
+            <include file="../../../../simhive/multi_sim/furniture_sim/simpleTable/simpleWoodTable_body_multi_0.xml"/>
         </body>
         <body pos='1.2 0.475 0'>
-            <include file="../../../../simhive/furniture_sim/simpleTable/simpleWoodTable_body_multi_1.xml"/>
+            <include file="../../../../simhive/multi_sim/furniture_sim/simpleTable/simpleWoodTable_body_multi_1.xml"/>
         </body>
         <body pos='-1.2 0.475 0'>
-            <include file="../../../../simhive/furniture_sim/simpleTable/simpleWoodTable_body_multi_2.xml"/>
+            <include file="../../../../simhive/multi_sim/furniture_sim/simpleTable/simpleWoodTable_body_multi_2.xml"/>
         </body>
 
         <!-- Objects -->
