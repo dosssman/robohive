@@ -74,6 +74,31 @@ MultiTask Suite
 ## - ROBEL Suite (Coming soon)
    This suite contains a collection of environments centered around real-world locomotion and manipulation. Standard [ROBEL benchmarks](http://roboticsbenchmarks.org/) are a part of this suite
 
+## Multi-Robot Environment
+
+- 4 Franka Arms for cube triage task env name: `FrankaReachFixedMulti-v0`
+- Continuous joint action space over all robots of shape `Box(9 x N_ROBOTS)`
+- Getting the env up and recovering visual inputs with `env.get_visuals()`
+```python
+import gym
+import robohive
+
+env = gym.make("FrankaReachFixedMulti-v0")
+env.reset()
+
+visuals = env.get_visuals()
+# Expected output:
+"""
+{
+      'time': array([0.]),
+      'rgb:franka0_front_cam:256x256:1d': array([122, 118, 108, ...,  92,  88,  85], dtype=uint8),
+      'rgb:franka1_front_cam:256x256:1d': array([138, 130, 121, ...,  80,  77,  74], dtype=uint8),
+      'rgb:franka2_front_cam:256x256:1d': array([145, 134, 124, ...,  84,  82,  79], dtype=uint8),
+      'rgb:franka3_front_cam:256x256:1d': array([149, 139, 129, ...,  80,  78,  75], dtype=uint8)}
+"""
+```
+- Teleoperation is WIP
+
 # Citation
 If you find `RoboHive` useful in your research,
 - please consider supporting the project by providing a [star ⭐](https://github.com/vikashplus/robohive/stargazers)

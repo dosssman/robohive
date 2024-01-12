@@ -81,6 +81,12 @@ register(
         'model_path': curr_dir+'/franka/assets/franka_reach_multi_v0.xml',
         'config_path': curr_dir+'/franka/assets/franka_reach_multi_v0.config',
         'robot_site_name': "end_effector",
+        'visual_keys': [
+            "rgb:franka0_front_cam:256x256:1d",
+            "rgb:franka1_front_cam:256x256:1d",
+            "rgb:franka2_front_cam:256x256:1d",
+            "rgb:franka3_front_cam:256x256:1d"
+        ]
     }
 )
 
