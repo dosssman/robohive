@@ -98,6 +98,15 @@ visuals = env.get_visuals()
 """
 ```
 - Teleoperation is WIP
+- Running the environment visualizer (requires display)
+```bash
+# Fixed robots
+DISPLAY=:1 python -m robohive.utils.examine_env_multi -e FrankaReachFixedMulti-v0 --num_episodes=10000
+```
+```bash
+# Random policy robots
+DISPLAY=:1 python -m robohive.utils.examine_env -e FrankaReachFixedMulti-v0 --num_episodes=10000
+```
 
 # Citation
 If you find `RoboHive` useful in your research,
