@@ -75,7 +75,7 @@ MultiTask Suite
    This suite contains a collection of environments centered around real-world locomotion and manipulation. Standard [ROBEL benchmarks](http://roboticsbenchmarks.org/) are a part of this suite
 
 ## Multi-Robot Environment
-
+- Pre-req: assuming "Editable install" was performed (Getting Started section)
 - 4 Franka Arms for cube triage task env name: `FrankaReachFixedMulti-v0`
 - Continuous joint action space over all robots of shape `Box(9 x N_ROBOTS)`
 - Getting the env up and recovering visual inputs with `env.get_visuals()`
