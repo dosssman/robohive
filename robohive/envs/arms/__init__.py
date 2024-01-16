@@ -179,6 +179,42 @@ register_env_variant(
     silent=True
 )
 
+# FRANKA PICK-PLACE CUSTOM ===============================================================
+# Custom: Franka Standard Gripper - Single Robot Env Teleop
+# TODO: what does 'rp' prefix mean ?
+encoder_type = "2d"
+# img_res="480x640"
+img_res="240x424"
+register(
+    id="rpFrankaPickPlaceData-v0",
+    entry_point='robohive.envs.arms.pick_place_custom_v0:FrankaPickPlaceDataV0',
+    max_episode_steps=10000, #50steps*40Skip*2ms = 4s
+    kwargs={
+        'model_path': curr_dir+'/franka/assets/franka_busbin_custom_v0.xml',
+        'config_path': curr_dir+'/franka/assets/franka_busbin_custom_v0.config',
+        'robot_ndof': 9,
+        'robot_site_name': "end_effector",
+        'object_site_name': "cube_0",
+        'target_site_name': "drop_target",
+        'target_xyz_range': {'high':[-.235, 0.5, 0.85], 'low':[-.235, 0.5, 0.85]},
+        # 'nq_arm':7,
+        # 'nq_ee':1,
+        'name_ee':'end_effector', # TODO: dedupe
+        'visual_keys':[
+            # customize the visual keys
+            # TODO: review what kind of camear angles we want / need
+            "rgb:left_cam:{}:{}".format(img_res, encoder_type),
+            "rgb:right_cam:{}:{}".format(img_res, encoder_type),
+            "rgb:top_cam:{}:{}".format(img_res, encoder_type),
+            "rgb:Franka_wrist_cam:{}:{}".format(img_res, encoder_type),
+            "d:left_cam:{}:{}".format(img_res, encoder_type),
+            "d:right_cam:{}:{}".format(img_res, encoder_type),
+            "d:top_cam:{}:{}".format(img_res, encoder_type),
+            "d:Franka_wrist_cam:{}:{}".format(img_res, encoder_type),
+            ]
+    }
+)
+
 # FETCH =======================================================================
 from robohive.envs.arms.reach_base_v0 import ReachBaseV0
 
