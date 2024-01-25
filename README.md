@@ -107,6 +107,13 @@ DISPLAY=:1 python -m robohive.utils.examine_env_multi -e FrankaReachFixedMulti-v
 # Random policy robots
 DISPLAY=:1 python -m robohive.utils.examine_env -e FrankaReachFixedMulti-v0 --num_episodes=10000
 ```
+- Additional dependencies to get gamepad based tele operation work (WIP)
+```bash
+# Either install https://github.com/vikashplus/vtils or a local editable fork of the project
+
+# Additionally
+pip install inputs # for gamepad support
+```
 
 # Citation
 If you find `RoboHive` useful in your research,
