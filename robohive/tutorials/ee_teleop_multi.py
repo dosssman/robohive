@@ -109,7 +109,7 @@ def poll_gamepad(input_device):
     # pprint(sen)
 
     # exit request
-    done = True if sen == "esc" else False
+    done = True if (sen["BTN_START"] and sen["BTN_SELECT"]) else False
 
     if sen["BTN_WEST"] == 1: # B: open gripper
         delta_gripper = -1
@@ -166,7 +166,7 @@ def poll_gamepad(input_device):
 @click.option('-vi', '--vendor_id', type=int, default=9583, help=('Spacemouse vendor id'))
 @click.option('-pi', '--product_id', type=int, default=50741, help=('Spacemouse product id'))
 # @click.option('-tx', '--x_range', type=tuple, default=(-0.5, 0.5), help=('x range'))
-# @click.option('-ty', '--y_range', type=tuple, default=(-0.5, 0.5), help=('y range'))
+# @click.option('-ty', '--yz_range', type=tuple, default=(-0.5, 0.5), help=('y range'))
 # @click.option('-tz', '--z_range', type=tuple, default=(-0.5, 0.5), help=('z range'))
 # @click.option('-rx', '--roll_range', type=tuple, default=(-0.5, 0.5), help=('roll range'))
 # @click.option('-ry', '--pitch_range', type=tuple, default=(-0.5, 0.5), help=('pitch range'))
@@ -214,7 +214,7 @@ def main(env_name, env_args, reset_noise, action_noise, input_device, output, ho
         obs, rwd, done, env_info = env.forward()
         act = np.zeros(env.action_space.shape)
         gripper_state = 0
-
+        
         # start rolling out
         for i_step in range(horizon+1):
 
@@ -261,6 +261,8 @@ def main(env_name, env_args, reset_noise, action_noise, input_device, output, ho
             # nan actions for last log entry
             act = np.nan*np.ones(env.action_space.shape) if i_step == horizon else act
 
+            # TODO: double check perf. cost for 
+            # visual obs logging, adding
             # log values at time=t ----------------------------------
             datum_dict = dict(
                     time=env.time,
@@ -269,6 +271,7 @@ def main(env_name, env_args, reset_noise, action_noise, input_device, output, ho
                     rewards=rwd,
                     env_infos=env_info,
                     done=done,
+                    visual_obs=env.get_visuals()
                 )
             trace.append_datums(group_key=group_key,dataset_key_val=datum_dict)
             # print(f't={env.time:2.2}, a={act}, o={obs[:3]}')
