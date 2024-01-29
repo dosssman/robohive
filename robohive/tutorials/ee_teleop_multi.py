@@ -272,7 +272,8 @@ def main(env_name, env_args, reset_noise, action_noise, input_device, output, ho
                     rewards=rwd,
                     env_infos=env_info,
                     done=done,
-                    visual_obs=env.get_visuals()
+                    visual_obs=env.get_visuals(),
+                    target_pos=env.sim.model.site_pos[env.target_sid]
                 )
             trace.append_datums(group_key=group_key,dataset_key_val=datum_dict)
             # print(f't={env.time:2.2}, a={act}, o={obs[:3]}')

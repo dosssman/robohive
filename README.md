@@ -136,7 +136,7 @@ DISPLAY=:1 python robohive/tutorials/ee_teleop_multi.py
 
 **Gamepad teleop**:
 ```bash
-DISPLAY=:1 python robohive/tutorials/ee_teleop_multi.py -i gamepad
+DISPLAY=:1 python robohive/tutorials/ee_teleop7_multi.py -i gamepad
 DISPLAY=:1 python robohive/tutorials/ee_teleop_multi.py -i gamepad -ea "{'randomiz
 e':True}" # randomizes start position of objects in the env.
 
