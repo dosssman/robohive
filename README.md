@@ -79,6 +79,7 @@ MultiTask Suite
 - 4 Franka Arms for cube triage task env name: `FrankaReachFixedMulti-v0`
 - Continuous joint action space over all robots of shape `Box(9 x N_ROBOTS)`
 - Getting the env up and recovering visual inputs with `env.get_visuals()`
+
 ```python
 import gym
 import robohive
@@ -97,7 +98,7 @@ visuals = env.get_visuals()
       'rgb:franka3_front_cam:256x256:1d': array([149, 139, 129, ...,  80,  78,  75], dtype=uint8)}
 """
 ```
-- Teleoperation is WIP
+
 - Running the environment visualizer (requires display)
 ```bash
 # Fixed robots
@@ -118,7 +119,7 @@ pip install -e git+https://github.com/dosssman/vtils.git@x360-gamepad
 pip install inputs # for gamepad support
 ```
 
-### Tele-operation
+### Tele-operation and data collection
 
 A custom, simplified data collection environment was added as: `rpFrankaRobotiqData-v0`.
 
