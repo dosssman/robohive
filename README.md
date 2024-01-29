@@ -126,11 +126,27 @@ A custom, simplified data collection environment was added as: `rpFrankaRobotiqD
 **Keyboard teleop**:
 ```bash
 DISPLAY=:1 python robohive/tutorials/ee_teleop_multi.py
+
+# Controls:
+# - ESDF akin to WASD for games (front,left,back, right) assuming standing behind the robot
+# - Q to raise the end-effector, Z to lower it
+# - R to open the gripper, V to close it
+# - Arrow keys to rotate the arm, , and . to rotate the end effector.
 ```
 
 **Gamepad teleop**:
 ```bash
 DISPLAY=:1 python robohive/tutorials/ee_teleop_multi.py -i gamepad
+DISPLAY=:1 python robohive/tutorials/ee_teleop_multi.py -i gamepad -ea "{'randomiz
+e':True}" # randomizes start position of objects in the env.
+
+# Controls
+# - Left stick controls X Y axis movement
+# - LT: raise
+# - RT: lower
+# - Y: close gripper
+# - B: open gripper
+# - Dpad, LB, RB: end effector rotation
 ```
 
 # Citation
