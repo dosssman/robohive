@@ -110,9 +110,26 @@ DISPLAY=:1 python -m robohive.utils.examine_env -e FrankaReachFixedMulti-v0 --nu
 - Additional dependencies to get gamepad based tele operation work (WIP)
 ```bash
 # Either install https://github.com/vikashplus/vtils or a local editable fork of the project
+# Xbox 360 gamepad support was added into branch `x360-gamepad` of [Rousslan's fork](https://github.com/dosssman/vtils.git)
+# Install directly with:
+pip install -e git+https://github.com/dosssman/vtils.git@x360-gamepad
 
 # Additionally
 pip install inputs # for gamepad support
+```
+
+### Tele-operation
+
+A custom, simplified data collection environment was added as: `rpFrankaRobotiqData-v0`.
+
+**Keyboard teleop**:
+```bash
+DISPLAY=:1 python robohive/tutorials/ee_teleop_multi.py
+```
+
+**Gamepad teleop**:
+```bash
+DISPLAY=:1 python robohive/tutorials/ee_teleop_multi.py -i gamepad
 ```
 
 # Citation
