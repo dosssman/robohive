@@ -153,6 +153,7 @@ def poll_gamepad(input_device):
 @click.option('-i', '--input_device', type=click.Choice(['keyboard', 'gamepad', 'spacemouse']), help='input to use for teleOp', default='keyboard')
 @click.option('-o', '--output', type=str, default="teleOp_trace.h5", help=('Output name'))
 @click.option('-h', '--horizon', type=int, help='Rollout horizon', default=10000)
+@click.option('-rd', '--randomize', type=bool, help='Randomize environment', default=False)
 @click.option('-n', '--num_rollouts', type=int, help='number of repeats for the rollouts', default=1)
 @click.option('-f', '--output_format', type=click.Choice(['RoboHive', 'RoboSet']), help='Data format', default='RoboHive')
 @click.option('-c', '--camera', multiple=True, type=str, default=[], help=('list of camera topics for rendering'))
@@ -172,7 +173,7 @@ def poll_gamepad(input_device):
 # @click.option('-ry', '--pitch_range', type=tuple, default=(-0.5, 0.5), help=('pitch range'))
 # @click.option('-rz', '--yaw_range', type=tuple, default=(-0.5, 0.5), help=('yaw range'))
 # @click.option('-gr', '--gripper_range', type=tuple, default=(0, 1), help=('z range'))
-def main(env_name, env_args, reset_noise, action_noise, input_device, output, horizon, num_rollouts, output_format, camera, render, seed, goal_site, teleop_site, pos_scale, rot_scale, gripper_scale, vendor_id, product_id):
+def main(env_name, env_args, reset_noise, action_noise, input_device, output, horizon, num_rollouts, randomize, output_format, camera, render, seed, goal_site, teleop_site, pos_scale, rot_scale, gripper_scale, vendor_id, product_id):
     # x_range, y_range, z_range, roll_range, pitch_range, yaw_range, gripper_range
 
     # seed and load environments

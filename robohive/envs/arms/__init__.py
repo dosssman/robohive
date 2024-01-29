@@ -196,7 +196,8 @@ register(
         'robot_site_name': "end_effector",
         'object_site_name': "cube_0",
         'target_site_name': "drop_target",
-        'target_xyz_range': {'high':[-.235, 0.5, 0.85], 'low':[-.235, 0.5, 0.85]},
+        'target_xyz_range': {'high':[-.145, 0.575, 0.85], 'low':[-.275, 0.425, 0.85]},
+        'object_xyz_range': {'high':[0.275, 0.575, 0.85], 'low':[0.145, 0.425, 0.85]},
         # 'nq_arm':7,
         # 'nq_ee':1,
         'name_ee':'end_effector', # TODO: dedupe

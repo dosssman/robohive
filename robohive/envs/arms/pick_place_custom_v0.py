@@ -52,6 +52,7 @@ class FrankaPickPlaceDataV0(env_base.MujocoEnv):
                object_site_name,
                target_site_name,
                target_xyz_range,
+               object_xyz_range,
                frame_skip=40,
                reward_mode="dense",
                obs_keys=DEFAULT_OBS_KEYS,
@@ -69,6 +70,7 @@ class FrankaPickPlaceDataV0(env_base.MujocoEnv):
         self.object_sid = self.sim.model.site_name2id(object_site_name)
         self.target_sid = self.sim.model.site_name2id(target_site_name)
         self.target_xyz_range = target_xyz_range
+        self.object_xyz_range = object_xyz_range
         self.randomize = randomize
         self.geom_sizes = geom_sizes
 
@@ -123,20 +125,25 @@ class FrankaPickPlaceDataV0(env_base.MujocoEnv):
             self.sim.model.site_pos[self.target_sid] = self.np_random.uniform(high=self.target_xyz_range['high'], low=self.target_xyz_range['low'])
             self.sim_obsd.model.site_pos[self.target_sid] = self.sim.model.site_pos[self.target_sid]
 
+            # Only supporting one object so far.
+            self.sim.model.site_pos[self.object_sid] = self.np_random.uniform(high=self.object_xyz_range['high'], low=self.object_xyz_range['low'])
+            self.sim_obsd.model.site_pos[self.object_sid] = self.sim.model.site_pos[self.object_sid]
+
             # object shapes and locations
             # for body in ["obj0", "obj1", "obj2"]: # NOTE: in the original env, more objects
-            for body in ["cube_0"]:
-                bid = self.sim.model.body_name2id(body)
-                self.sim.model.body_pos[bid] += self.np_random.uniform(low=[-.010, -.010, -.010], high=[-.010, -.010, -.010])# random pos
-                self.sim.model.body_quat[bid] = euler2quat(self.np_random.uniform(low=(-np.pi/2, -np.pi/2, -np.pi/2), high=(np.pi/2, np.pi/2, np.pi/2)) ) # random quat
+            # for body in ["cube_0"]:
 
-                for gid in range(self.sim.model.body_geomnum[bid]):
-                    gid+=self.sim.model.body_geomadr[bid]
-                    self.sim.model.geom_type[gid]=self.np_random.randint(low=2, high=7) # random shape
-                    self.sim.model.geom_size[gid]=self.np_random.uniform(low=self.geom_sizes['low'], high=self.geom_sizes['high']) # random size
-                    self.sim.model.geom_pos[gid]=self.np_random.uniform(low=-1*self.sim.model.geom_size[gid], high=self.sim.model.geom_size[gid]) # random pos
-                    self.sim.model.geom_quat[gid]=euler2quat(self.np_random.uniform(low=(-np.pi/2, -np.pi/2, -np.pi/2), high=(np.pi/2, np.pi/2, np.pi/2)) ) # random quat
-                    self.sim.model.geom_rgba[gid]=self.np_random.uniform(low=[.2, .2, .2, 1], high=[.9, .9, .9, 1]) # random color
+            #     bid = self.sim.model.body_name2id(body)
+            #     self.sim.model.body_pos[bid] += self.np_random.uniform(low=[-.010, -.010, -.010], high=[-.010, -.010, -.010])# random pos
+            #     self.sim.model.body_quat[bid] = euler2quat(self.np_random.uniform(low=(-np.pi/2, -np.pi/2, -np.pi/2), high=(np.pi/2, np.pi/2, np.pi/2)) ) # random quat
+
+            #     for gid in range(self.sim.model.body_geomnum[bid]):
+            #         gid+=self.sim.model.body_geomadr[bid]
+            #         self.sim.model.geom_type[gid]=self.np_random.randint(low=2, high=7) # random shape
+            #         self.sim.model.geom_size[gid]=self.np_random.uniform(low=self.geom_sizes['low'], high=self.geom_sizes['high']) # random size
+            #         self.sim.model.geom_pos[gid]=self.np_random.uniform(low=-1*self.sim.model.geom_size[gid], high=self.sim.model.geom_size[gid]) # random pos
+            #         self.sim.model.geom_quat[gid]=euler2quat(self.np_random.uniform(low=(-np.pi/2, -np.pi/2, -np.pi/2), high=(np.pi/2, np.pi/2, np.pi/2)) ) # random quat
+            #         self.sim.model.geom_rgba[gid]=self.np_random.uniform(low=[.2, .2, .2, 1], high=[.9, .9, .9, 1]) # random color
             self.sim.forward()
 
         obs = super().reset(self.init_qpos, self.init_qvel)
