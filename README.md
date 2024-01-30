@@ -157,6 +157,10 @@ DISPLAY=:1 python robohive/tutorials/ee_teleop_multi.py -i gamepad -ea "{'random
 # - B: open gripper
 # - Dpad, LB, RB: end effector rotation
 ```
+
+Once the data is collected, simultaneously press SELECT+START to stop the data collection and wait for the file to be saved.
+The tele-operation script can then be close with `Ctrl+C`.
+
 ### Loading and structure of the tele-operation collected data:
 ```
 import numpy as np
@@ -187,6 +191,13 @@ observations, actions, done, target_pos = \
   trace["Trial0"].get("actions"), \
   trace["Trial0"].get("done"), \
   trace["Trial0"].get("target_pos")
+```
+
+### Imitation Learning
+
+Additional dependencies
+```
+pip install wandb==0.16.2 tensorboardx==2.6.2.2 tensorboard==2.15.1 nvsmi==0.4.2 torchinfo==1.8.0
 ```
 
 # Citation
