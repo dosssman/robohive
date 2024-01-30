@@ -157,6 +157,37 @@ DISPLAY=:1 python robohive/tutorials/ee_teleop_multi.py -i gamepad -ea "{'random
 # - B: open gripper
 # - Dpad, LB, RB: end effector rotation
 ```
+### Loading and structure of the tele-operation collected data:
+```
+import numpy as np
+
+from robohive.logger.roboset_logger import RoboSet_Trace
+from robohive.logger.grouped_datasets import Trace as RoboHive_Trace
+
+trace0 = RoboHive_Trace("TeleOp Trajectories")
+trace0 = trace0.load("data/2024-01-30-pick-place-dataset/teleop_gamepad_traj_00.h5"); trace0
+
+# Output as follows:
+
+Trace_name: dict_keys(['data/2024-01-30-dataset/teleop_gamepad_traj_7'])
+<HDF5 group "/Trial0" (8 members)>
+	<HDF5 dataset "actions": shape (337, 9), type "<f2">
+	<HDF5 dataset "done": shape (337,), type "|b1">
+	<HDF5 group "/Trial0/env_infos" (9 members)>
+	<HDF5 dataset "observations": shape (337, 37), type "<f2">
+	<HDF5 dataset "rewards": shape (337,), type "<f2">
+	<HDF5 dataset "target_pos": shape (337, 3), type "<f2">
+	<HDF5 dataset "time": shape (337,), type "<f2">
+	<HDF5 group "/Trial0/visual_obs" (9 members)>
+
+# Loading the relevant fields for IL as an example:
+# Might want to turn that to numpy array's later on.
+observations, actions, done, target_pos = \
+  trace["Trial0"].get("observations"), \
+  trace["Trial0"].get("actions"), \
+  trace["Trial0"].get("done"), \
+  trace["Trial0"].get("target_pos")
+```
 
 # Citation
 If you find `RoboHive` useful in your research,
