@@ -120,6 +120,7 @@ class FrankaPickPlaceDataV0(env_base.MujocoEnv):
 
     def reset(self):
 
+        # TODO: might also want to randomize the starting position
         if self.randomize:
             # target location
             self.sim.model.site_pos[self.target_sid] = self.np_random.uniform(high=self.target_xyz_range['high'], low=self.target_xyz_range['low'])

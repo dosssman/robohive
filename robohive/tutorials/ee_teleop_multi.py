@@ -75,7 +75,6 @@ def poll_keyboard(input_device):
 
     return delta_pos, delta_euler, delta_gripper, done
 
-
 # Poll and process spacemouse values
 def poll_spacemouse(input_device):
     # get sensors
@@ -101,7 +100,6 @@ def poll_spacemouse(input_device):
     return delta_pos, delta_euler, delta_gripper, done
 
 # Poll and process gamepad values
-# TODO: finer control with the axes and trigger buttons
 def poll_gamepad(input_device):
     # get sensors
     sen = input_device.get_sensors()
@@ -111,6 +109,11 @@ def poll_gamepad(input_device):
     # exit request
     done = True if (sen["BTN_START"] and sen["BTN_SELECT"]) else False
 
+    scale_factor = 1.0
+
+    if sen["BTN_NORTH"] == 1:
+        scale_factor = 0.25 # X: slow down translate and rotation movement
+    
     if sen["BTN_WEST"] == 1: # B: open gripper
         delta_gripper = -1
     elif sen["BTN_EAST"] == 1: # Y: close gripper
@@ -143,7 +146,7 @@ def poll_gamepad(input_device):
     elif sen["BTN_TR"] == 1: # X-axis right rot.
         delta_euler[2] = 1
 
-    return delta_pos, delta_euler, delta_gripper, done
+    return delta_pos * scale_factor, delta_euler * scale_factor, delta_gripper, done
 
 @click.command(help=DESC)
 @click.option('-e', '--env_name', type=str, help='environment to load', default='rpFrankaPickPlaceData-v0')
@@ -152,8 +155,7 @@ def poll_gamepad(input_device):
 @click.option('-an', '--action_noise', type=float, default=0.0, help=('Amplitude of action noise during rollout'))
 @click.option('-i', '--input_device', type=click.Choice(['keyboard', 'gamepad', 'spacemouse']), help='input to use for teleOp', default='keyboard')
 @click.option('-o', '--output', type=str, default="teleOp_trace.h5", help=('Output name'))
-@click.option('-h', '--horizon', type=int, help='Rollout horizon', default=10000)
-@click.option('-rd', '--randomize', type=bool, help='Randomize environment', default=False)
+@click.option('-h', '--horizon', type=int, help='Rollout horizon', default=5000)
 @click.option('-n', '--num_rollouts', type=int, help='number of repeats for the rollouts', default=1)
 @click.option('-f', '--output_format', type=click.Choice(['RoboHive', 'RoboSet']), help='Data format', default='RoboHive')
 @click.option('-c', '--camera', multiple=True, type=str, default=[], help=('list of camera topics for rendering'))
@@ -173,10 +175,15 @@ def poll_gamepad(input_device):
 # @click.option('-ry', '--pitch_range', type=tuple, default=(-0.5, 0.5), help=('pitch range'))
 # @click.option('-rz', '--yaw_range', type=tuple, default=(-0.5, 0.5), help=('yaw range'))
 # @click.option('-gr', '--gripper_range', type=tuple, default=(0, 1), help=('z range'))
-def main(env_name, env_args, reset_noise, action_noise, input_device, output, horizon, num_rollouts, randomize, output_format, camera, render, seed, goal_site, teleop_site, pos_scale, rot_scale, gripper_scale, vendor_id, product_id):
+def main(env_name, env_args, reset_noise, action_noise, input_device, output, horizon, num_rollouts, output_format, camera, render, seed, goal_site, teleop_site, pos_scale, rot_scale, gripper_scale, vendor_id, product_id):
     # x_range, y_range, z_range, roll_range, pitch_range, yaw_range, gripper_range
 
     # seed and load environments
+    is_env_randomize = env_args.__contains__("'randomize':True")
+    if is_env_randomize:
+        seed = seed if not is_env_randomize else np.random.randint(0, 1337)
+        print(f"Randomize env_args detected: {seed}")
+
     np.random.seed(seed)
     env = gym.make(env_name) if env_args==None else gym.make(env_name, **(eval(env_args)))
     env.seed(seed)
@@ -209,6 +216,7 @@ def main(env_name, env_args, reset_noise, action_noise, input_device, output, ho
         # NOTE: original reset call, not supported by BusBin type env for now
         # env.reset(reset_qpos=env.init_qpos+reset_noise, blocking=True)
         # Custom reset call that does not reset qpos, nor blocking
+        env.reset()
         env.reset()
 
         # recover init state

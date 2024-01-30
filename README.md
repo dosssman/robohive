@@ -75,7 +75,15 @@ MultiTask Suite
    This suite contains a collection of environments centered around real-world locomotion and manipulation. Standard [ROBEL benchmarks](http://roboticsbenchmarks.org/) are a part of this suite
 
 ## Multi-Robot Environment
-- Pre-req: assuming "Editable install" was performed (Getting Started section)
+
+### Virtual environment
+We use Anaconda as virtual environment manager for Ubuntu 20.04 LTS
+The environment is created with:
+```bash
+conda create -n robohive python=3.10
+conda activate robohive
+```
+- Then, perform the setings in the "Getting Started" section above for the editable install, but using the `multi-robot` branch.
 - 4 Franka Arms for cube triage task env name: `FrankaReachFixedMulti-v0`
 - Continuous joint action space over all robots of shape `Box(9 x N_ROBOTS)`
 - Getting the env up and recovering visual inputs with `env.get_visuals()`
@@ -139,7 +147,8 @@ DISPLAY=:1 python robohive/tutorials/ee_teleop_multi.py
 DISPLAY=:1 python robohive/tutorials/ee_teleop7_multi.py -i gamepad
 DISPLAY=:1 python robohive/tutorials/ee_teleop_multi.py -i gamepad -ea "{'randomiz
 e':True}" # randomizes start position of objects in the env.
-
+## Data collection for initial BC training
+DISPLAY=:1 python robohive/tutorials/ee_teleop_multi.py -i gamepad -ea "{'randomize':True}" -o "data/2024-01-30-dataset/teleop_gamepad_traj_X.h5
 # Controls
 # - Left stick controls X Y axis movement
 # - LT: raise
