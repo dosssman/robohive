@@ -200,6 +200,14 @@ Additional dependencies
 pip install wandb==0.16.2 tensorboardx==2.6.2.2 tensorboard==2.15.1 nvsmi==0.4.2 torchinfo==1.8.0 moviepy==1.0.3
 ```
 
+**Training simple BC**
+- Mount the training data folder with Robohive traces and configure `--dataset-path` to reflect which dataset folder to use.
+- Commnand to run
+```bash
+# more to robohive/imitation
+xvfb-run -a python bc.py
+```
+
 # Citation
 
 If you find `RoboHive` useful in your research,

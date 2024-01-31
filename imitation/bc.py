@@ -176,7 +176,7 @@ def main():
   CUSTOM_ARGS = [
     # General hyper parameters
     get_arg_dict("seed", int, 111),
-    get_arg_dict("total-steps", int, 500_000),
+    get_arg_dict("total-steps", int, 2_000_000),
     
     # Behavior hyparams
     get_arg_dict("dataset-path", str, "../data/2024-01-30-pick-place-dataset/"),
