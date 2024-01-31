@@ -122,6 +122,7 @@ def make_dataloader(dataset_path, batch_size, scale_obs=False, seed=111, num_wor
   return dloader
 
 # Eval helper
+@th.inference_mode()
 def eval_agent(env, agent, args, dataset=None):
   """
     args: used to recover eval settings, and observation scaling
@@ -147,8 +148,7 @@ def eval_agent(env, agent, args, dataset=None):
       ep_video_data = []
 
     while not solved and t < MAX_STEPS:
-      with th.no_grad():
-        action = agent(th.Tensor(obs_target)[None, :].float().to(agent.device))
+      action = agent(th.Tensor(obs_target)[None, :].float().to(agent.device))
       action = action[0].cpu().numpy()
 
       obs, _, _, info = env.step(action)
@@ -158,7 +158,7 @@ def eval_agent(env, agent, args, dataset=None):
         obs_target = dataset.normalize_observation(obs_target)
 
       if args.save_videos and n_video_saved < args.save_videos_n_max:
-        ep_video_data.append(env.get_visuals()["rgb:front_cam:240x424:2d"])
+        ep_video_data.append(env.get_visuals()["rgb:front_cam:480x640:2d"])
 
       t += 1
     
@@ -170,47 +170,6 @@ def eval_agent(env, agent, args, dataset=None):
       n_video_saved += 1
 
   return solved_list, video_dict
-
-# Agent models
-# TODO: separate to models.py in case we have more models
-class DeterministicActor(nn.Module):
-  def __init__(self,
-                input_dim,
-                output_dim,
-                n_layers,
-                hid_size,
-                act_fn=nn.ReLU,
-                out_act_fn=nn.Identity):
-    super().__init__()
-
-    network = []
-
-    for h0, h1 in zip(
-      [input_dim, *[hid_size for _ in range(n_layers)]],
-      [*[hid_size for _ in range(n_layers)], output_dim],
-      ):
-      network.extend([
-        nn.Linear(h0, h1),
-        act_fn()])
-    
-    network.pop()
-    network.append(out_act_fn())
-    
-    self.network = nn.Sequential(*network)
-
-    # TODO: init scehems
-  
-  def forward(self, x):
-    # TODO: some asserts on the type and shape ?
-    return self.network(x)
-
-  def get_n_params(self):
-    return sum(p.numel() for p in self.parameters())
-
-  def to(self, device):
-    super().to(device)
-    self.device = device
-    return self
 
 def main():
   # region: Generating additional hyparams
@@ -238,7 +197,7 @@ def main():
     # TODO: max horizon for the eval step, etc...
     get_arg_dict("eval", bool, True, metatype="bool"),
     get_arg_dict("eval-every", int, int(5e4)), # Every X updates
-    get_arg_dict("eval-n-episodes", int, 8),
+    get_arg_dict("eval-n-episodes", int, 5),
 
     # Logging params
     get_arg_dict("save-videos", bool, True, metatype="bool"),
@@ -277,11 +236,68 @@ def main():
 
   # Environment instantiation
   if args.eval:
+    encoder_type = "2d"
+    img_res="480x640"
+    # img_res="240x424"
     env = gym.make("rpFrankaPickPlaceData-v0", 
-                  randomize=True)
+                  randomize=True,
+                  visual_keys= [
+                    # customize the visual keys
+                    # TODO: review what kind of camear angles we want / need
+                    # "rgb:left_cam:{}:{}".format(img_res, encoder_type),
+                    # "rgb:right_cam:{}:{}".format(img_res, encoder_type),
+                    # "rgb:top_cam:{}:{}".format(img_res, encoder_type),
+                    "rgb:front_cam:{}:{}".format(img_res, encoder_type),
+                    # "rgb:Franka_wrist_cam:{}:{}".format(img_res, encoder_type),
+                    # "d:left_cam:{}:{}".format(img_res, encoder_type),
+                    # "d:right_cam:{}:{}".format(img_res, encoder_type),
+                    # "d:top_cam:{}:{}".format(img_res, encoder_type),
+                    # "d:front_cam:{}:{}".format(img_res, encoder_type),
+                  ])
   else:
     # TODO: create place holder observation and action spaces
     pass
+
+  # Agent models
+  # TODO: separate to models.py in case we have more models
+  class DeterministicActor(nn.Module):
+    def __init__(self,
+                  input_dim,
+                  output_dim,
+                  n_layers,
+                  hid_size,
+                  act_fn=nn.ReLU,
+                  out_act_fn=nn.Identity):
+      super().__init__()
+
+      network = []
+
+      for h0, h1 in zip(
+        [input_dim, *[hid_size for _ in range(n_layers)]],
+        [*[hid_size for _ in range(n_layers)], output_dim],
+        ):
+        network.extend([
+          nn.Linear(h0, h1),
+          act_fn()])
+      
+      network.pop()
+      network.append(out_act_fn())
+      
+      self.network = nn.Sequential(*network)
+
+      # TODO: init scehems
+    
+    def forward(self, x):
+      # TODO: some asserts on the type and shape ?
+      return self.network(x)
+
+    def get_n_params(self):
+      return sum(p.numel() for p in self.parameters())
+
+    def to(self, device):
+      super().to(device)
+      self.device = device
+      return self
 
   # Agent instantiation
   if args.actor_type == "deter":
@@ -347,7 +363,7 @@ def main():
       }
       tblogger.log_stats(info_stats, global_step, "info")
     
-    if args.eval and should_eval(global_step):
+    if args.eval and global_step > 0 and should_eval(global_step):
       eval_solved_list, eval_video_dict = eval_agent(env, agent, args, dataset=dataloader._dataset)
       tblogger.log_stats({
         "success_rate": np.mean(eval_solved_list),
