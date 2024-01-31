@@ -200,7 +200,7 @@ register(
         'object_xyz_range': {'high':[0.275, 0.575, 0.85], 'low':[0.145, 0.425, 0.85]},
         # 'nq_arm':7,
         # 'nq_ee':1,
-        'name_ee':'end_effector', # TODO: dedupe
+        # 'name_ee':'end_effector', # TODO: dedupe
         'visual_keys':[
             # customize the visual keys
             # TODO: review what kind of camear angles we want / need

@@ -219,7 +219,6 @@ def main():
   # Training start
   start_time = time.time()
   # num_updates = args.total_steps // args.batch_size # Total number of updates that will take place in this experiment
-  n_updates = 0 # Progressively tracks the number of network updats
   # Log the number of parameters of the model
   tblogger.log_stats({
       "n_params": agent.get_n_params()
@@ -255,6 +254,7 @@ def main():
       info_stats = {
         "global_step": global_step,
         "duration": time.time() - start_time,
+        "n_updates": global_step,
         "fps": tblogger.track_duration("fps", global_step),
         "env_step_duration": tblogger.track_duration("fps_inv", global_step, inverse=True),
       }

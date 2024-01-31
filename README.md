@@ -197,10 +197,11 @@ observations, actions, done, target_pos = \
 
 Additional dependencies
 ```
-pip install wandb==0.16.2 tensorboardx==2.6.2.2 tensorboard==2.15.1 nvsmi==0.4.2 torchinfo==1.8.0
+pip install wandb==0.16.2 tensorboardx==2.6.2.2 tensorboard==2.15.1 nvsmi==0.4.2 torchinfo==1.8.0 moviepy==1.0.3
 ```
 
 # Citation
+
 If you find `RoboHive` useful in your research,
 - please consider supporting the project by providing a [star ⭐](https://github.com/vikashplus/robohive/stargazers)
 - please consider citing our project by using the following BibTeX entry:

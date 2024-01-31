@@ -81,7 +81,9 @@ class FrankaPickPlaceDataV0(env_base.MujocoEnv):
                        **kwargs)
         self.viewer_setup(distance=1.25, azimuth=-90, elevation=-20)
 
-
+    def get_target_pos(self):
+        return self.sim.model.site_pos[self.target_sid]
+    
     def get_obs_dict(self, sim):
         obs_dict = {}
         obs_dict['time'] = np.array([self.sim.data.time])
