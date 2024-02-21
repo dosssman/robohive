@@ -144,9 +144,8 @@ DISPLAY=:1 python robohive/tutorials/ee_teleop_multi.py
 
 **Gamepad teleop**:
 ```bash
-DISPLAY=:1 python robohive/tutorials/ee_teleop7_multi.py -i gamepad
-DISPLAY=:1 python robohive/tutorials/ee_teleop_multi.py -i gamepad -ea "{'randomiz
-e':True}" # randomizes start position of objects in the env.
+DISPLAY=:1 python robohive/tutorials/ee_teleop_multi.py -i gamepad
+DISPLAY=:1 python robohive/tutorials/ee_teleop_multi.py -i gamepad -ea "{'randomize':True}" # randomizes start position of objects in the env.
 ## Data collection for initial BC training
 DISPLAY=:1 python robohive/tutorials/ee_teleop_multi.py -i gamepad -ea "{'randomize':True}" -o "data/2024-01-30-dataset/teleop_gamepad_traj_X.h5
 # Controls
@@ -157,9 +156,79 @@ DISPLAY=:1 python robohive/tutorials/ee_teleop_multi.py -i gamepad -ea "{'random
 # - B: open gripper
 # - Dpad, LB, RB: end effector rotation
 ```
-
 Once the data is collected, simultaneously press SELECT+START to stop the data collection and wait for the file to be saved.
 The tele-operation script can then be close with `Ctrl+C`.
+
+**Spacemouse operation**
+
+Intall dependencies as follows:
+```bash
+pip install hdiapi
+
+# NOTE: tried with the following Ubuntu package but did not work out.
+# sudo apt-get install spnavd # spacenav service
+# service unit: spacenavd.service
+# can also run in the foreground: spacenavd -v -d
+
+# Installs spacenavd binary and service (open source)
+git clone https://github.com/FreeSpacenav/spacenavd.git
+cd spacenavd
+./configure
+make
+sudo make install
+## Create service file as follows ?
+### /etc/systemd/system/spacenavd.service
+[Unit]
+Description=Userspace Daemon of the spacenav driver.
+
+[Service]
+Type=forking
+PIDFile=/var/run/spnavd.pid
+Environment=XAUTHORITY=/run/user/1000/gdm/Xauthority
+ExecStart=/usr/local/bin/spacenavd
+
+[Install]
+WantedBy=multi-user.target
+## end file
+
+# Install spavenvcfg
+# Install libspnav drivers
+git clone https://github.com/FreeSpacenav/libspnav.git
+cd libspnav
+./configure
+make
+sudo make install
+
+# Install spnavcfg (configurator, not mandatory ?)
+sudo apt-get install qt5-default # if getting qt5 missing dependency error
+git clone https://github.com/FreeSpacenav/spnavcfg.git
+cd spnavcfg
+./configure
+make
+sudo make install # system-wide installation
+```
+
+Running without root permission:
+```bash
+# Created udev config file as follows:
+## /etc/udev/rules.d
+SUBSYSTEM=="usb", ATTRS{idVendor}=="256f", ATTRS{idProduct}=="c635", MODE="0666"
+KERNEL=="hidraw*",ATTRS{busnum}=="1", ATTRS{idVendor}=="256f", ATTRS{idProduct}=="c635", MODE="0666"
+
+# Reload custom rules
+udevadm control --reload-rules && udevadm trigger
+```
+
+Getting `spnavcfg` to run:
+- Run from the desktop environment, or with DISPLAY=:1 while a display is actually connected
+- first ran `sudo /usr/loca/bin/spacenavd -v -d` in one terminal,
+- then in another terminal: `/spnavcfg`
+- and it the GUI for testing and config should show up.
+
+Collect data with the following:
+```bash
+python ee_teleop_multi.py --input_device spacemouse
+```
 
 ### Loading and structure of the tele-operation collected data:
 ```

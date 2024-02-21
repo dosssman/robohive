@@ -23,7 +23,7 @@ import gym
 try:
     from vtils.input.keyboard import KeyInput as KeyBoard
     from vtils.input.gamepad import GamePad
-    # from vtils.input.spacemouse import SpaceMouse
+    from vtils.input.spacemouse import SpaceMouse
 except ImportError as e:
     raise ImportError("Please install vtils -- https://github.com/vikashplus/vtils")
 
@@ -179,10 +179,11 @@ def main(env_name, env_args, reset_noise, action_noise, input_device, output, ho
     # x_range, y_range, z_range, roll_range, pitch_range, yaw_range, gripper_range
 
     # seed and load environments
-    is_env_randomize = env_args.__contains__("'randomize':True")
-    if is_env_randomize:
-        seed = seed if not is_env_randomize else np.random.randint(0, 1337)
-        print(f"Randomize env_args detected: {seed}")
+    if env_args is not None:
+        is_env_randomize = env_args.__contains__("'randomize':True")
+        if is_env_randomize:
+            seed = seed if not is_env_randomize else np.random.randint(0, 1337)
+            print(f"Randomize env_args detected: {seed}")
 
     np.random.seed(seed)
     env = gym.make(env_name) if env_args==None else gym.make(env_name, **(eval(env_args)))
