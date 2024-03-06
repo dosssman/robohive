@@ -153,7 +153,7 @@ def qpos_from_site_pose(physics,
     # Find the indices of the DOFs belonging to each named joint. Note that
     # these are not necessarily the same as the joint IDs, since a single joint
     # may have >1 DOF (e.g. ball joints).
-    indexer = physics.named.model.dof_jntid.axes.row
+    indexer = physics.sim.named.model.dof_jntid.axes.row
     # `dof_jntid` is an `(nv,)` array indexed by joint name. We use its row
     # indexer to map each joint name to the indices of its corresponding DOFs.
     dof_indices = indexer.convert_key_item(joint_names)
